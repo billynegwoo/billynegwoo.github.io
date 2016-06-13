@@ -51,7 +51,7 @@ $.init = function () {
     $.textPops = [];
     $.levelPops = [];
     $.buttons = [];
-    $.okeys ={};
+    $.okeys = {};
     $.powerupTimers = [];
     $.states = {};
     $.state = '';
@@ -97,8 +97,8 @@ $.renderBackground = function () {
         $.util.fillCircle($.ctxbg1, $.util.rand(0, $.cbg1.width), $.util.rand(0, $.cbg1.height), $.util.rand(0.2, 0.5), 'hsla(0, 0%, 100%, ' + $.util.rand(0.05, 0.2) + ')');
     }
 
-    var i = 800;
-    while (i--) {
+    var j = 800;
+    while (j--) {
         $.util.fillCircle($.ctxbg1, $.util.rand(0, $.cbg1.width), $.util.rand(0, $.cbg1.height), $.util.rand(0.1, 0.8), 'hsla(0, 0%, 100%, ' + $.util.rand(0.05, 0.5) + ')');
     }
 };
@@ -130,52 +130,51 @@ $.mouseupcb = function (e) {
 };
 
 $.keydowncb = function (e) {
-    console.log(e.keyCode);
-    var e = ( e.keyCode ? e.keyCode : e.which );
-    if (e === 38 || e === 90) {
+    var k = ( e.keyCode ? e.keyCode : e.which );
+    if (k === 38 || k === 90) {
         $.keys.state.up = 1;
     }
-    if (e === 39 || e === 68) {
+    if (k === 39 || k === 68) {
         $.keys.state.right = 1;
     }
-    if (e === 40 || e === 83) {
+    if (k === 40 || k === 83) {
         $.keys.state.down = 1;
     }
-    if (e === 37 || e === 81) {
+    if (k === 37 || k === 81) {
         $.keys.state.left = 1;
     }
-    if (e === 70) {
+    if (k === 70) {
         $.keys.state.f = 1;
     }
-    if (e === 77) {
+    if (k === 77) {
         $.keys.state.m = 1;
     }
-    if (e === 80) {
+    if (k === 80) {
         $.keys.state.p = 1;
     }
 };
 
 $.keyupcb = function (e) {
-    var e = ( e.keyCode ? e.keyCode : e.which );
-    if (e === 38 || e === 90) {
+    var k = ( e.keyCode ? e.keyCode : e.which );
+    if (k === 38 || k === 90) {
         $.keys.state.up = 0;
     }
-    if (e === 39 || e === 68) {
+    if (k === 39 || k === 68) {
         $.keys.state.right = 0;
     }
-    if (e === 40 || e === 83) {
+    if (k === 40 || k === 83) {
         $.keys.state.down = 0;
     }
-    if (e === 37 || e === 81) {
+    if (k === 37 || k === 81) {
         $.keys.state.left = 0;
     }
-    if (e === 70) {
+    if (k === 70) {
         $.keys.state.f = 0;
     }
-    if (e === 77) {
+    if (k === 77) {
         $.keys.state.m = 0;
     }
-    if (e === 80) {
+    if (k === 80) {
         $.keys.state.p = 0;
     }
 };
@@ -208,6 +207,9 @@ $.bindEvents = function () {
  */
 $.renderInterface = function () {
 
+    /**
+     * Power UP
+     */
     for (var i = 0; i < $.definitions.powerups.length; i++) {
         var powerup = $.definitions.powerups[i],
             powerupOn = ( $.powerupTimers[i] > 0 );
@@ -242,6 +244,9 @@ $.renderInterface = function () {
             $.ctxmg.fillRect(powerupBar.x, powerupBar.y, ( $.powerupTimers[i] / 300 ) * powerupBar.width, powerupBar.height);
         }
     }
+    /**
+     * instructions
+     */
     if ($.instructionTick < $.instructionTickMax) {
         $.instructionTick += $.dt;
         $.ctxmg.beginPath();
@@ -300,6 +305,10 @@ $.renderInterface = function () {
         $.ctxmg.fillStyle = 'hsla(200, 100%, 20%, 0.05)';
         $.ctxmg.fillRect(0, 0, $.cw, $.ch);
     }
+
+    /**
+     * Health
+     */
     $.ctxmg.beginPath();
     var healthText = $.text({
         ctx: $.ctxmg,
@@ -346,6 +355,9 @@ $.renderInterface = function () {
             saturation: 100
         }));
     }
+    /**
+     * Progress
+     */
     $.ctxmg.beginPath();
     var progressText = $.text({
         ctx: $.ctxmg,
@@ -392,6 +404,9 @@ $.renderInterface = function () {
             saturation: 0
         }));
     }
+    /**
+     * Progress
+     */
     $.ctxmg.beginPath();
     var scoreLabel = $.text({
         ctx: $.ctxmg,
@@ -425,7 +440,9 @@ $.renderInterface = function () {
     });
     $.ctxmg.fillStyle = 'hsla(0, 0%, 100%, 1)';
     $.ctxmg.fill();
-
+    /**
+     * Best score
+     */
     $.ctxmg.beginPath();
     var bestLabel = $.text({
         ctx: $.ctxmg,
@@ -491,6 +508,10 @@ $.loop = function () {
         $.okeys[k] = $.keys.state[k];
     }
 };
+
+/**
+ * Spawn Enemies
+ */
 $.getSpawnCoordinates = function (radius) {
     var quadrant = Math.floor($.util.rand(0, 4)),
         x,
@@ -753,7 +774,14 @@ $.spawnPowerUp = function (x, y) {
  * states
  */
 $.setState = function (state) {
+    var menuButton,
+        playButton,
+        clearButton,
+        statsButton;
     $.buttons.length = 0;
+    /**
+     * MEnu
+     */
     if (state == 'menu') {
         $.mouse.down = 0;
         $.mouse.ax = 0;
@@ -761,7 +789,7 @@ $.setState = function (state) {
 
         $.reset();
 
-        var playButton = new $.Button({
+        playButton = new $.Button({
             x: $.cw / 2 + 1,
             y: $.ch / 2 - 24,
             lockedWidth: 299,
@@ -776,7 +804,7 @@ $.setState = function (state) {
         });
         $.buttons.push(playButton);
 
-        var statsButton = new $.Button({
+        statsButton = new $.Button({
             x: $.cw / 2 + 1,
             y: playButton.ey + 25,
             lockedWidth: 299,
@@ -789,11 +817,13 @@ $.setState = function (state) {
         });
         $.buttons.push(statsButton);
     }
-
+    /**
+     * Stats
+     */
     if (state == 'stats') {
         $.mouse.down = 0;
 
-        var clearButton = new $.Button({
+        clearButton = new $.Button({
             x: $.cw / 2 + 1,
             y: 426,
             lockedWidth: 299,
@@ -810,7 +840,7 @@ $.setState = function (state) {
         });
         $.buttons.push(clearButton);
 
-        var menuButton = new $.Button({
+        menuButton = new $.Button({
             x: $.cw / 2 + 1,
             y: clearButton.ey + 25,
             lockedWidth: 299,
@@ -823,11 +853,13 @@ $.setState = function (state) {
         });
         $.buttons.push(menuButton);
     }
-
+    /**
+     * Pause
+     */
     if (state == 'pause') {
         $.mouse.down = 0;
         $.screenshot = $.ctxmg.getImageData(0, 0, $.cw, $.ch);
-        var resumeButton = new $.Button({
+        resumeButton = new $.Button({
             x: $.cw / 2 + 1,
             y: $.ch / 2 + 26,
             lockedWidth: 299,
@@ -841,7 +873,7 @@ $.setState = function (state) {
         });
         $.buttons.push(resumeButton);
 
-        var menuButton = new $.Button({
+        menuButton = new $.Button({
             x: $.cw / 2 + 1,
             y: resumeButton.ey + 25,
             lockedWidth: 299,
@@ -858,7 +890,9 @@ $.setState = function (state) {
         });
         $.buttons.push(menuButton);
     }
-
+    /**
+     * Game Over
+     */
     if (state == 'gameover') {
         $.mouse.down = 0;
 
@@ -878,7 +912,7 @@ $.setState = function (state) {
         });
         $.buttons.push(resumeButton);
 
-        var menuButton = new $.Button({
+        menuButton = new $.Button({
             x: $.cw / 2 + 1,
             y: resumeButton.ey + 25,
             lockedWidth: 299,
@@ -900,10 +934,14 @@ $.setState = function (state) {
         $.storage['time'] += Math.floor($.elapsed);
         $.updateStorage();
     }
-    
+
     $.state = state;
 };
+
 $.setupStates = function () {
+    /**
+     * Menu
+     */
     $.states['menu'] = function () {
         $.clearScreen();
         $.updateScreen();
@@ -917,7 +955,9 @@ $.setupStates = function () {
             $.buttons[i].render(i)
         }
     };
-
+    /**
+     * Stats
+     */
     $.states['stats'] = function () {
         $.clearScreen();
 
@@ -942,7 +982,7 @@ $.setupStates = function () {
         $.ctxmg.fill();
 
         $.ctxmg.beginPath();
-        var statKeys = $.text({
+        $.text({
             ctx: $.ctxmg,
             x: $.cw / 2 - 10,
             y: statsTitle.ey + 39,
@@ -959,7 +999,7 @@ $.setupStates = function () {
         $.ctxmg.fill();
 
         $.ctxmg.beginPath();
-        var statsValues = $.text({
+        $.text({
             ctx: $.ctxmg,
             x: $.cw / 2 + 10,
             y: statsTitle.ey + 39,
@@ -991,8 +1031,9 @@ $.setupStates = function () {
             $.buttons[i].update(i)
         }
     };
-
-
+    /**
+     * Play
+     */
     $.states['play'] = function () {
         $.updateDelta();
         $.updateScreen();
@@ -1117,7 +1158,9 @@ $.setupStates = function () {
             $.updateStorage();
         }
     };
-
+    /**
+     * Pause
+     */
     $.states['pause'] = function () {
         $.clearScreen();
         $.ctxmg.putImageData($.screenshot, 0, 0);
@@ -1158,7 +1201,10 @@ $.setupStates = function () {
             $.setState('play');
         }
     };
-
+    /**
+     * Game Over
+     */
+    
     $.states['gameover'] = function () {
         $.clearScreen();
         $.ctxmg.putImageData($.screenshot, 0, 0);

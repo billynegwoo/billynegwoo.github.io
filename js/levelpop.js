@@ -1,6 +1,6 @@
-/*==============================================================================
- Init
- ==============================================================================*/
+/**
+ * Init
+ */
 $.LevelPop = function( opt ) {
     for( var k in opt ) {
         this[k] = opt[k];
@@ -15,9 +15,9 @@ $.LevelPop = function( opt ) {
     }
 };
 
-/*==============================================================================
- Update
- ==============================================================================*/
+/**
+ *  Update
+ */
 $.LevelPop.prototype.update = function( i ) {
     if( this.tick >= this.tickMax ) {
         $.levelPops.splice( i, 1 );
@@ -26,10 +26,11 @@ $.LevelPop.prototype.update = function( i ) {
     }
 };
 
-/*==============================================================================
- Render
- ==============================================================================*/
-$.LevelPop.prototype.render = function( i ) {
+/**
+ * Render
+ */
+$.LevelPop.prototype.render = function() {
+    var alpha;
     $.ctxmg.beginPath();
     $.text( {
         ctx: $.ctxmg,
@@ -45,14 +46,13 @@ $.LevelPop.prototype.render = function( i ) {
         render: 1
     } );
     if( this.tick < this.tickMax * 0.25 ) {
-        var alpha = ( this.tick / ( this.tickMax * 0.25 ) ) * this.baseAlpha;
+        alpha = ( this.tick / ( this.tickMax * 0.25 ) ) * this.baseAlpha;
     } else if( this.tick > this.tickMax - this.tickMax * 0.25 ) {
-        var alpha = ( ( this.tickMax - this.tick ) / ( this.tickMax * 0.25 ) ) * this.baseAlpha;
+        alpha = ( ( this.tickMax - this.tick ) / ( this.tickMax * 0.25 ) ) * this.baseAlpha;
     } else {
-        var alpha = this.baseAlpha;
+        alpha = this.baseAlpha;
     }
     alpha = Math.min( 1, Math.max( 0, alpha ) );
-
     $.ctxmg.fillStyle = 'hsla(0, 0%, 100%, ' + alpha + ')';
     $.ctxmg.fill();
-}
+};

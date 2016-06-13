@@ -175,18 +175,17 @@ $.Hero.prototype.update = function () {
  * render
  */
 $.Hero.prototype.render = function () {
+    var fillStyle;
     if (this.life > 0) {
         if (this.takingDamage) {
-            var fillStyle = 'hsla(0, 0%, ' + $.util.rand(0, 100) + '%, 1)';
+            fillStyle = 'hsla(0, 0%, ' + $.util.rand(0, 100) + '%, 1)';
             $.ctxmg.fillStyle = 'hsla(0, 0%, ' + $.util.rand(0, 100) + '%, ' + $.util.rand(0.01, 0.15) + ')';
             $.ctxmg.fillRect(-$.screen.x, -$.screen.y, $.cw, $.ch);
         } else {
-            var fillStyle = this.fillStyle;
+            fillStyle = this.fillStyle;
         }
-
-        $.util.fillCircle( $.ctxmg, this.x, this.y, this.radius, this.fillStyle );
-        $.util.strokeCircle( $.ctxmg, this.x, this.y, this.radius - 0.5, this.strokeStyle, 1 );
-
+        $.util.fillCircle($.ctxmg, this.x, this.y, this.radius, this.fillStyle);
+        $.util.strokeCircle($.ctxmg, this.x, this.y, this.radius - 0.5, this.strokeStyle, 1);
         $.ctxmg.strokeStyle = this.strokeStyle;
         $.ctxmg.lineWidth = 4;
         $.ctxmg.stroke();
