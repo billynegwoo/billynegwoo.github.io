@@ -20,9 +20,9 @@ $.Particle.prototype.update = function (i) {
     this.speed *= this.friction;
 
     /**
-     * Lock bounsd
+     * Lock bounds
      */
-    if ($.util.pointInRect(this.ex, this.ey, 0, -0, $.ww, $.wh)) {
+    if (!$.util.pointInRect(this.ex, this.ey, 0, -0, $.ww, $.wh)) {
         this.parent.splice(i, 1)
     }
     /**
