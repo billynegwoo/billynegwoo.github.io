@@ -2,6 +2,12 @@
  * init
  */
 $.init = function () {
+    $.w = window;
+    $.d = document;
+    $.e = $.d.documentElement;
+    $.g = $.d.getElementsByTagName('body')[0];
+    $.x = $.w.innerWidth || $.e.clientWidth || $.g.clientWidth;
+    $.y = $.w.innerHeight|| $.e.clientHeight|| $.g.clientHeight;
     $.setupStorage();
     $.wrap = document.getElementById('wrap');
     $.wrapInner = document.getElementById('wrap-inner');
@@ -15,8 +21,8 @@ $.init = function () {
 
     $.ctxmg = $.cmg.getContext('2d');
     $.ctxfg = $.cfg.getContext('2d');
-    $.cw = $.cmg.width = $.cfg.width = 800;
-    $.ch = $.cmg.height = $.cfg.height = 600;
+    $.cw = $.cmg.width = $.cfg.width = $.x - 20;
+    $.ch = $.cmg.height = $.cfg.height = $.y - 20;
     $.wrap.style.width = $.wrapInner.style.width = $.cw + 'px';
     $.wrap.style.height = $.wrapInner.style.height = $.ch + 'px';
     $.wrap.style.marginLeft = ( -$.cw / 2 ) - 10 + 'px';
@@ -1204,7 +1210,7 @@ $.setupStates = function () {
     /**
      * Game Over
      */
-    
+
     $.states['gameover'] = function () {
         $.clearScreen();
         $.ctxmg.putImageData($.screenshot, 0, 0);
