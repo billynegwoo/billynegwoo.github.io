@@ -2,7 +2,6 @@
  * Init
  */
 $.Hero = function () {
-
     this.x = $.ww / 2;
     this.y = $.wh / 2;
     this.vx = 0;
